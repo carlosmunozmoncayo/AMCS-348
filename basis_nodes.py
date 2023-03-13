@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 
 def generate_lagrange_poly(j, x_nodes='LGL',n=10):
     if x_nodes == 'LGL':
-        _,_,_,_,_,_,x_nodes,_= generate_LGL_points(n)
+        _,_,_,_,_,_,x_nodes,_= generate_LGL_points(n-1)
     elif x_nodes == 'LG':
-        _,_,_,_,x_nodes,_,_,_= generate_LGL_points(n)
+        _,_,_,_,x_nodes,_,_,_= generate_LGL_points(n-1)
     xj = x_nodes[j]
     n_nodes = len(x_nodes)
     def Lj(x):
