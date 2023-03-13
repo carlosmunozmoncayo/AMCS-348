@@ -42,9 +42,8 @@ def generate_LGL_points(n):
     p_Legn1_prime = np.polyder(p_Legn1) #Derivative of N+1th Legendre polynomial
     vp_Legn1_prime = np.vectorize(p_Legn1_prime) #Vectorizing previous function
 
-    x_LG = np.roots(p_Legn) #Legendre-Gauss points
-    w_LG = (1.-x_LG)/(n+1)**2/(vp_Legn1_prime(x_LG))**2 #Legendre-Gauss weights
-    w_LG[0] = 2./(n+1)**2
+    x_LG = np.roots(p_Legn1) #Legendre-Gauss points
+    w_LG = 2/(1.-x_LG**2)/(vp_Legn1_prime(x_LG))**2 #Legendre-Gauss weights
 
     x_LGL = np.roots(p_Legn_prime)
     x_LGL = np.append(-1., x_LGL)
