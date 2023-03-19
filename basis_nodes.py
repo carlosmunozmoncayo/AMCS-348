@@ -9,11 +9,9 @@ import matplotlib.pyplot as plt
 #print(cubic(x))
 #print(2.5*x**3-1.5*x)
 
-def generate_lagrange_poly(j, x_nodes='LGL',n=10):
-    if x_nodes == 'LGL':
+def generate_lagrange_poly(j, x_nodes,n=10, use_LGL=False):
+    if use_LGL:
         _,_,_,_,_,_,x_nodes,_= generate_LGL_points(n-1)
-    elif x_nodes == 'LG':
-        _,_,_,_,x_nodes,_,_,_= generate_LGL_points(n-1)
     xj = x_nodes[j]
     n_nodes = len(x_nodes)
     def Lj(x):
