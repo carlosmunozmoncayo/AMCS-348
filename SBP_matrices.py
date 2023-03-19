@@ -15,14 +15,24 @@ def first_order_D( x_nodes='LGL' , n=10 ):
             D[i,j] = Ljp(x_nodes[i])
     return D
 
-def first_order_P_Q( x_Lagrange_nodes='LGL', n=10 ):
+def first_order_P_Q( x_Lagrange_nodes='LGL', x_abcissae='LGL' , n=10 ):
     if x_Lagrange_nodes == 'LGL':
         _,_,_,_,_,_,x_Lagrange_nodes,_ = generate_LGL_points(n-1)
     elif x_Lagrange_nodes == 'LG':
         _,_,_,_,x_Lagrange_nodes,_,_,_ = generate_LGL_points(n-1)
 
     n_nodes = len(x_Lagrange_nodes)
-    _,_,_,_,_,_,x_LGL,w_LGL = generate_LGL_points(n_nodes-1)
+    
+    
+    _,_,_,_,_,_,_, w_LGL = generate_LGL_points(n_nodes-1)
+    w_LGL = 0.5(x_abcissae[-1]-x_abcissae[0])*w_LGL
+
+    if x_abcissae == 'LGL':
+        _,_,_,_,_,_,x_LGL, w_LGL = generate_LGL_points(n_nodes-1)
+    elif x_abcissae == 'LG':
+        _,_,_,_,x_LGL,w_LGL,_,_ = generate_LGL_points(n_nodes-1)
+
+    
 
 
     #Generating a list of Lagrange basis
