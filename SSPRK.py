@@ -19,8 +19,9 @@ def SSPRK22(fun, u0, dt, t0, tfinal, nframes):
         
         #Saving solution
         if counter_skip > skip:
-             u_frames.append(np.copy(u))
-             counter_skip=0
+            u_frames.append(np.copy(u))
+            t_eval.append(t)
+            counter_skip=0
         else:
             counter_skip += 1
         
@@ -46,8 +47,9 @@ def SSPRK33(fun, u0, dt, t0, tfinal, nframes):
         
         #Saving solution
         if counter_skip > skip:
-             u_frames.append(np.copy(u))
-             counter_skip=0
+            u_frames.append(np.copy(u))
+            t_eval.append(t)
+            counter_skip=0
         else:
             counter_skip += 1
         
@@ -81,8 +83,9 @@ def SSPRK53(fun, u0, dt, t0, tfinal, nframes):
               0.29786487010104*dt*fun(u1))
         #Saving solution
         if counter_skip > skip:
-             u_frames.append(np.copy(u))
-             counter_skip=0
+            u_frames.append(np.copy(u))
+            t_eval.append(t)
+            counter_skip=0
         else:
             counter_skip += 1
         
@@ -115,8 +118,9 @@ def SSPRK54(fun, u0, dt, t0, tfinal, nframes):
 
         #Saving solution
         if counter_skip > skip:
-             u_frames.append(np.copy(u))
-             counter_skip=0
+            u_frames.append(np.copy(u))
+            t_eval.append(t)
+            counter_skip=0
         else:
             counter_skip += 1
         
