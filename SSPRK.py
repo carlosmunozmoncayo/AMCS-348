@@ -1,5 +1,6 @@
 #Some Optimal SSP RK schemes
 #Taken from Gottlieb, Ketcheson, and Shu (2011)
+import numpy as np
 
 def SSPRK22(fun, u0, dt, t0, tfinal, nframes):
     n = len(u0)
