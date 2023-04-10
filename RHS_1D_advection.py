@@ -88,7 +88,7 @@ def generate_RHS_1D_advection(xlower=0.,xupper=2.,n_elements=40,
     #Local
     if num_flux_type == "upwind":
         f_num_loc = lambda uL, uR : c_advection*uL #Upwind flux
-    elif num_flux_type == "centered:"
+    elif num_flux_type == "centered":
         f_num_loc = lambda uL, uR : c_advection*(uL+uR)/2 #Centered flux
     
     #Global
@@ -96,7 +96,7 @@ def generate_RHS_1D_advection(xlower=0.,xupper=2.,n_elements=40,
         #Computing numerical flux just at the interface of elements
         #Fill numerical flux vector if there is just one element
         if n_elements == 1:
-            f = [c*u[-1], c*u[-1]]  #The first component should be c*source at the left
+            f = [f_num_loc(u[-1],u[0]), f_num_loc(u[-1],u[0])]  #The first component should be c*source at the left
                                     #Here we are using periodic BCs
             return np.array(f)
 
@@ -115,16 +115,17 @@ def generate_RHS_1D_advection(xlower=0.,xupper=2.,n_elements=40,
             f.append(f_num_loc(u[idx_L],u[idx_R]))
             
         #Fill numerical flux vector for last element
-        f.append(c*u[-n_nodes-1]) #Left interface
-        f.append(c*u[-1])       #Right interface
+        f.append(f_num_loc(u[-n_nodes-1],u[-n_nodes])) #Left interface
+        f.append(f_num_loc(u[-1],u[0]))       #Right interface
                            
         return np.array(f)
 
     def RHS_fun(u):
         split_form_interior = -0.5*D@c_mat@u -0.5*c_mat@D@u -0.5*np.diag(u)@D@c_vec
-        non_split_form_interior = -c*D@u
-        elem_boundary_terms = -diagPinv*(R.T@B@(f_num(u=u)-c*R@u))
+        non_split_form_interior = -c_advection*D@u
+        elem_boundary_terms = -diagPinv*(R.T@B@(f_num(u=u)-c_advection*R@u))
         return (1./len_element)*(non_split_form_interior+elem_boundary_terms)
     
     return RHS_fun, x_grid, xi_LGL
+
 
