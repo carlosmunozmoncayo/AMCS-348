@@ -51,6 +51,10 @@ def generate_RHS_1D_advection(xlower=0.,xupper=2.,n_elements=40,
 
     #We define our grid (interface points will be repeated)
     x_grid = np.zeros(n_elements*n_nodes)
+    for i in range(n_elements): 
+        j = i*n_nodes
+        x_grid[j:j+n_nodes] = x_element+x[i]
+        list_elements.append(x_grid[j:j+n_nodes])
 
     #Local opretaros P and Q
     P_LGL, Q_LGL = first_order_P_Q(x_Lagrange_nodes=xi_LGL, x_abcissae=xi_LGL, w_abcissae=w_LGL)
@@ -59,8 +63,8 @@ def generate_RHS_1D_advection(xlower=0.,xupper=2.,n_elements=40,
     P = np.kron(np.eye(n_elements), P_LGL)
     Q = np.kron(np.eye(n_elements), Q_LGL)
 
-    diagP=np.diag(P)
-    diagPinv=1./diagP
+    diagP = np.diag(P) #vector with the diagonal of P
+    diagPinv = 1./diagP #vector with the inverse of the diagonal of P
 
     #Restriction operators R, B
     #Local
