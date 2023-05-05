@@ -127,3 +127,40 @@ def SSPRK54(fun, u0, dt, t0, tfinal, nframes):
         
         t += dt
     return u_frames, t_eval
+
+def SSPRK33_SWE(fun, q0, dt, t0, tfinal, nframes, CFL, dx_restriction, g):
+    #Time integration designed for SWEs
+    #split q into two arrays, the first half is h, the second is hu
+    n = len(q0)
+    h = np.copy(q0[:n//2])
+    hu = np.copy(q0[n//2:])
+    q = np.copy(q0)
+
+    t = t0
+    q_frames = [q]
+    t_eval = [t0]
+
+    #For sampling solution (needs improvement)
+    save_step_dt=(tfinal-t0)/nframes
+
+    while t<tfinal:
+        lambda1 = hu/h-np.sqrt(g*h)
+        lambda2 = hu/h+np.sqrt(g*h)
+        maxspeed = np.max(np.abs(np.hstack((lambda1,lambda2))))
+        dt = CFL*dx_restriction/maxspeed/2
+        dt = min(dt, save_step_dt)
+        t += dt
+
+        q1 = q + dt*fun(q)
+        q2 = 0.75*q +0.25*q1 + 0.25*dt*fun(q1)
+        q  = (1./3.)*q + (2./3.)* q2 +(2./3.)*dt*fun(q2)
+
+        #Saving solution
+        if t>t_eval[-1]+save_step_dt:
+            q_frames.append(np.copy(q))
+            t_eval.append(t)
+
+    return q_frames, t_eval
+
+    #random number between 0 and 1 numpy
+    #np.random.rand(1)[0]
